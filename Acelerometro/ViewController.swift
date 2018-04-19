@@ -1,25 +1,38 @@
-//
-//  ViewController.swift
-//  Acelerometro
-//
-//  Created by Jorge Maldonado Borbón on 14/02/18.
-//  Copyright © 2018 Jorge Maldonado Borbón. All rights reserved.
-//
-
 import UIKit
-
+import CoreMotion
 class ViewController: UIViewController {
+    
+    var manager = CMMotionManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewDidAppear(_ animated: Bool) {
+        manager.accelerometerUpdateInterval = 0.2
+        manager.startAccelerometerUpdates(to: OperationQueue.current!) { (datos, error) in
+            if let registro = datos {
+                if registro.acceleration.x > 1 {
+                    self.view.backgroundColor = UIColor.green
+                }else{
+                    self.view.backgroundColor = UIColor.red
+                }
+            }
+        }
+        
     }
+    
 
 
 }
+
+
+
+
+
+
+
+
+
 
